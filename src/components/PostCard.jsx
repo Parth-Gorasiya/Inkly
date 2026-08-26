@@ -30,11 +30,11 @@ function PostCard({ $id, title, featuredImage }) {
 
                 {/* Content */}
                 <div className="p-5">
-                    <h2 className="text-xl font-bold line-clamp-2">
+                    <h2 className="text-xl font-bold line-clamp-2 dark:text-white">
                         {title}
                     </h2>
 
-                    <p className="text-sm text-gray-500 mt-3">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
                         Read article →
                     </p>
                 </div>

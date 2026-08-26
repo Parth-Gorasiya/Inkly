@@ -33,20 +33,20 @@ function Home() {
         <div className="w-full">
 
             {/* Hero Section */}
-            <section className="py-20 text-center">
+            <section className="py-20 text-center dark:bg-gray-900 dark:text-white">
                 <Container>
                     <h1 className="text-5xl font-bold mb-6">
                         Welcome to Inkly
                     </h1>
 
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                         Share your ideas, stories, and knowledge with the world.
                     </p>
                 </Container>
             </section>
 
             {/* Posts Section */}
-            <section className="w-full py-12 bg-gray-100">
+            <section className="w-full py-12 bg-gray-100 dark:bg-gray-800">
                 <Container>
 
                     <div className="mb-8">
@@ -54,7 +54,7 @@ function Home() {
                             Latest Posts
                         </h2>
 
-                        <p className="text-gray-600 mt-2">
+                        <p className="text-gray-600 dark:text-gray-300 mt-2">
                             Discover the latest stories from the Inkly community.
                         </p>
                     </div>

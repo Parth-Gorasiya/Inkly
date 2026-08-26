@@ -12,10 +12,11 @@ import AuthLayout from "./AuthLayout"
 import Button from "./Button";
 import Input from "./Input";
 import Select from "./Select";
+import ThemeBtn from "./ThemeBtn";
 
 export {
     Header, Footer, Container, Logo,
     LogoutBtn, RTE, Signup , Login,
     PostForm , PostCard , AuthLayout, Button,
-    Input, Select,
+    Input, Select,ThemeBtn
 }
