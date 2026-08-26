@@ -40,16 +40,19 @@ export class AuthService {
         }
     }
 
-    async getCurrentUser(){
-        try{
-            return await this.account.get();
-
-        }catch(err){
-            console.log("Appwrite Service :: getCurrentUser :: error ", err);
+    async getCurrentUser() {
+    try {
+        return await this.account.get();
+    } catch (err) {
+        if (err.code !== 401) {
+            console.log(
+                "Appwrite Service :: getCurrentUser :: error ",
+                err
+            );
         }
-
         return null;
     }
+}
 
     async logout() {
         try{
