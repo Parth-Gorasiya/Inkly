@@ -42,7 +42,7 @@ function Header() {
 
                     <div className="mr-4">
                         <Link to="/">
-                            <Logo width="70px" />
+                            <Logo width="140px" />
                         </Link>
                     </div>
 
