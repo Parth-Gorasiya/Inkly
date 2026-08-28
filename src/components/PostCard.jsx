@@ -2,7 +2,7 @@ import React from "react";
 import appwriteService from "../appwrite/config";
 import { Link } from "react-router-dom";
 
-function PostCard({ $id, title, featuredImage }) {
+function PostCard({ $id, title, featuredImage, $createdAt , authorName}) {
     return (
         <Link to={`/post/${$id}`}>
             <article className="bg-white rounded-xl overflow-hidden shadow-sm
@@ -33,10 +33,26 @@ function PostCard({ $id, title, featuredImage }) {
                     <h2 className="text-xl font-bold line-clamp-2 dark:text-white">
                         {title}
                     </h2>
+                    </div>
 
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-3">
-                        Read article →
-                    </p>
+                    <div className="mt-4">
+    <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        {authorName || "Unknown author"}
+    </p>
+
+                    <div className="flex items-center justify-between mt-4">
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                            {new Date($createdAt).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+})}
+                        </p>
+
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                            Read article →
+                        </p>
+                    </div>
                 </div>
 
             </article>

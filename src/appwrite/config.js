@@ -15,26 +15,36 @@ export class Service {
         this.bucket = new Storage(this.client);
     }
 
-    async createPost ({title, slug, content, featuredImage, status, userId}){
-        try{
-            return await this.databases.createDocument(
-                conf.appWriteDatabaseId,
-                conf.appWriteCollectionId,
-                slug,
-                {
-                    title,
-                    content,
-                    featuredImage,
-                    status,
-                    userId,
-                }
-            )
-
-        }catch(err){
-                console.log("Appwrite Service :: createPost :: error ", err);
-
-        }
+   async createPost({
+    title,
+    slug,
+    content,
+    featuredImage,
+    status,
+    userId,
+    authorName
+}) {
+    try {
+        return await this.databases.createDocument(
+            conf.appWriteDatabaseId,
+            conf.appWriteCollectionId,
+            slug,
+            {
+                title,
+                content,
+                featuredImage,
+                status,
+                userId,
+                authorName,
+            }
+        );
+    } catch (err) {
+        console.log(
+            "Appwrite Service :: createPost :: error ",
+            err
+        );
     }
+}
 
     async updatePost(slug, {title, content, featuredImage, status}){
         try{
@@ -83,6 +93,73 @@ export class Service {
             return false;
         }
     }
+
+    // Like services
+
+async createLike(userId, postId) {
+    try {
+        return await this.databases.createDocument(
+            conf.appWriteDatabaseId,
+            conf.appWriteLikesCollectionId,
+            ID.unique(),
+            {
+                userId,
+                postId,
+            }
+        );
+    } catch (err) {
+        console.log("Appwrite Service :: createLike :: error ", err);
+        return false;
+    }
+}
+
+async deleteLike(likeId) {
+    try {
+        await this.databases.deleteDocument(
+            conf.appWriteDatabaseId,
+            conf.appWriteLikesCollectionId,
+            likeId
+        );
+
+        return true;
+    } catch (err) {
+        console.log("Appwrite Service :: deleteLike :: error ", err);
+        return false;
+    }
+}
+
+async getPostLikes(postId) {
+    try {
+        return await this.databases.listDocuments(
+            conf.appWriteDatabaseId,
+            conf.appWriteLikesCollectionId,
+            [
+                Query.equal("postId", postId)
+            ]
+        );
+    } catch (err) {
+        console.log("Appwrite Service :: getPostLikes :: error ", err);
+        return false;
+    }
+}
+
+async getUserLike(userId, postId) {
+    try {
+        const response = await this.databases.listDocuments(
+            conf.appWriteDatabaseId,
+            conf.appWriteLikesCollectionId,
+            [
+                Query.equal("userId", userId),
+                Query.equal("postId", postId)
+            ]
+        );
+
+        return response.documents[0] || null;
+    } catch (err) {
+        console.log("Appwrite Service :: getUserLike :: error ", err);
+        return null;
+    }
+}
 
     async getPosts(queries = [Query.equal("status", "active")]){
         try{

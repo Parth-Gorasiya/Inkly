@@ -10,6 +10,10 @@ export default function Post() {
     const { slug } = useParams();
     const navigate = useNavigate();
 
+    const [likes, setLikes] = useState(0);
+    const [userLike, setUserLike] = useState(null);
+    const [likeLoading, setLikeLoading] = useState(false);
+
     const userData = useSelector((state) => state.auth.userData);
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
@@ -20,14 +24,61 @@ export default function Post() {
         return;
     }
 
-    appwriteService.getPost(slug).then((post) => {
+    appwriteService.getPost(slug).then(async (post) => {
         if (post) {
             setPost(post);
+
+            // Get all likes for this post
+            const likeData = await appwriteService.getPostLikes(post.$id);
+
+            if (likeData) {
+                setLikes(likeData.documents.length);
+            }
+
+            // Check if current user has liked this post
+            if (userData) {
+                const existingLike = await appwriteService.getUserLike(
+                    userData.$id,
+                    post.$id
+                );
+
+                setUserLike(existingLike);
+            }
         } else {
             navigate("/");
         }
     });
-}, [slug, navigate]);
+}, [slug, navigate, userData]);
+
+const handleLike = async () => {
+    if (!userData) {
+        navigate("/login");
+        return;
+    }
+
+    setLikeLoading(true);
+
+    if (userLike) {
+        const success = await appwriteService.deleteLike(userLike.$id);
+
+        if (success) {
+            setUserLike(null);
+            setLikes((prev) => prev - 1);
+        }
+    } else {
+        const newLike = await appwriteService.createLike(
+            userData.$id,
+            post.$id
+        );
+
+        if (newLike) {
+            setUserLike(newLike);
+            setLikes((prev) => prev + 1);
+        }
+    }
+
+    setLikeLoading(false);
+};
 
     const deletePost = async () => {
     const status = await appwriteService.deletePost(post.$id);
@@ -62,8 +113,21 @@ export default function Post() {
                     )}
                 </div>
                 <div className="w-full mb-6">
-                    <h1 className="text-2xl font-bold">{post.title}</h1>
-                </div>
+    <h1 className="text-2xl font-bold">{post.title}</h1>
+
+    <button
+        onClick={handleLike}
+        disabled={likeLoading}
+        className="mt-4 px-4 py-2 rounded-lg bg-red-500 text-white
+        hover:bg-red-600 disabled:opacity-50"
+    >
+        {userLike ? "❤️ Unlike" : "🤍 Like"}
+    </button>
+
+    <span className="ml-3 text-gray-600">
+        {likes} {likes === 1 ? "Like" : "Likes"}
+    </span>
+</div>
                 <div className="browser-css">
                     {parse(post.content)}
                     </div>
