@@ -417,9 +417,6 @@ Potential future improvements include:
 - More comprehensive loading and error states.
 - Automated testing.
 
----
-
----
 
 ## Author
 
