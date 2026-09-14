@@ -419,14 +419,6 @@ Potential future improvements include:
 
 ---
 
-## Acknowledgments
-
-Inkly began as a hands-on project while following the **Chai aur Code React course**, which introduced the core React and Appwrite architecture.
-
-The project was used to gain practical experience with React application architecture, Redux Toolkit, Appwrite authentication/database/storage, React Hook Form, TinyMCE, protected routes, user-owned content, debugging, and production deployment.
-
-Additional functionality and project work include likes, author information, timestamps, responsive UI improvements, persistent dark/light themes, production configuration, and deployment through Vercel.
-
 ---
 
 ## Author
